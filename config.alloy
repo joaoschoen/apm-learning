@@ -1,0 +1,10 @@
+logging {
+  level  = "info"
+  format = "logfmt"
+}
+
+otelcol.exporter.otlp "api" {
+  client {
+    endpoint = "localhost:3000"
+  }
+}
