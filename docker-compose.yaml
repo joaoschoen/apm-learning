@@ -1,8 +1,8 @@
 services:
- alloy:
-    image: grafana/alloy:${GRAFANA_ALLOY_VERSION:-v1.8.2}
+  otel-lgtm:
+    image: grafana/otel-lgtm:latest
     ports:
-      - 12345:12345      # Alloy HTTP server
-    volumes:
-      - ./config.alloy:/etc/alloy/config.alloy
-    command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
+      - 3000:3000
+      - 4317:4317
+      - 4318:4318
+ 
