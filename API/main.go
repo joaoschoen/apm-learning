@@ -2,14 +2,12 @@ package main
 
 import (
 	"context"
-	"errors"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 
 	"github.com/labstack/echo/v4"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"
 )
 
 func main() {
@@ -23,22 +21,11 @@ func run() (err error) {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
-	// Set up OpenTelemetry.
-	otelShutdown, err := setupOTelSDK(ctx)
-	if err != nil {
-		return
-	}
-	// Handle shutdown properly
-	defer func() {
-		err = errors.Join(err, otelShutdown(context.Background()))
-	}()
-
 	// Setup Echo Server
 	e := echo.New()
 
 	// Middleware configurations
 	// e.Use(middleware.Logger())
-	e.Use(otelecho.Middleware("api"))
 
 	// Routing
 	e.GET("/", func(c echo.Context) error {
